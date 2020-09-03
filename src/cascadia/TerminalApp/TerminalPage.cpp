@@ -1032,7 +1032,7 @@ namespace winrt::TerminalApp::implementation
                 const auto& profileGuid = focusedTab->GetFocusedProfile();
                 if (profileGuid.has_value())
                 {
-                    const auto settings = TerminalSettings::BuildSettings(*_settings, profileGuid.value());
+                    const TerminalSettings settings{ *_settings, profileGuid.value() };
                     _CreateNewTabFromSettings(profileGuid.value(), settings);
                 }
             }
@@ -1465,7 +1465,7 @@ namespace winrt::TerminalApp::implementation
                 if (current_guid)
                 {
                     profileFound = true;
-                    controlSettings = TerminalSettings::BuildSettings(*_settings, current_guid.value());
+                    controlSettings = TerminalSettings{ *_settings, current_guid.value() };
                     realGuid = current_guid.value();
                 }
                 // TODO: GH#5047 - In the future, we should get the Profile of
@@ -2012,7 +2012,7 @@ namespace winrt::TerminalApp::implementation
             {
                 // BuildSettings can throw an exception if the profileGuid does
                 // not belong to an actual profile in the list of profiles.
-                auto settings = TerminalSettings::BuildSettings(*_settings, profileGuid);
+                TerminalSettings settings{ *_settings, profileGuid };
                 settings.KeyBindings(*_bindings);
 
                 for (auto tab : _tabs)
